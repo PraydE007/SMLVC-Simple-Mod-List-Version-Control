@@ -1,0 +1,9 @@
+{
+    "destinationFolder": "mods/",
+    "removeList": [
+        "preview_OptiFine_1.20_HD_U_I5_pre5.jar"
+    ],
+    "addList": [
+        "OptiFine_1.20.1_HD_U_I5.jar"
+    ]
+}
