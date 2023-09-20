@@ -5,20 +5,25 @@ import os.path
 
 from urllib.request import urlopen
 
+VERSION = 'v3'
+
 class MyFrame(wx.Frame):
     version = None
     address = 'http://localhost:8080'
 
+    my_label = None
     my_btn = None
     my_forceBtn = None
 
     isUpdating = False
 
     def __init__(self):
-        super().__init__(parent=None, title='Simple Mod List Version Control v2', size=(400, 200), style=wx.DEFAULT_FRAME_STYLE & ~(wx.RESIZE_BORDER | wx.MAXIMIZE_BOX))
+        super().__init__(parent=None, title='Simple Mod List Version Control ' + VERSION, size=(400, 200), style=wx.DEFAULT_FRAME_STYLE & ~(wx.RESIZE_BORDER | wx.MAXIMIZE_BOX))
         panel = wx.Panel(self)
 
-        self.my_btn = wx.Button(panel, label='Check version and update', pos=(195 - 150, 70 - 50), size=(300, 100))
+        self.my_checkbox = wx.CheckBox(panel, label='Forbid reupload', pos=(45, 20))
+        self.my_checkbox.SetValue(True)
+        self.my_btn = wx.Button(panel, label='Check version and update', pos=(195 - 150, 70 - 20), size=(300, 70))
         self.my_btn.Bind(wx.EVT_BUTTON, self.on_press)
         self.my_forceBtn = wx.Button(panel, label='Force update', pos=(195 - 150, 70 - 50 + 100), size=(300, 30))
         self.my_forceBtn.Bind(wx.EVT_BUTTON, self.on_force_update)
@@ -95,14 +100,20 @@ class MyFrame(wx.Frame):
         self.my_btn.SetLabel("Update begins!")
         updateInfo = json.loads(self.read_url('/' + str(self.version) + '.json'))
         if not os.path.exists(updateInfo['destinationFolder']):
-            os.makedirs(updateInfo['destinationFolder'])
+            os.makedirs('./' + updateInfo['destinationFolder'])
         for mod in updateInfo['addList']:
+            if mod in updateInfo['addList']:
+                continue
+            if self.my_checkbox.GetValue() and os.path.isfile('./' + updateInfo['destinationFolder'] + mod):
+                continue
             print("    - Downloading mod: " + mod)
             modData = self.read_url('/' + updateInfo['destinationFolder'] + mod)
             f = open(updateInfo['destinationFolder'] + mod, "wb")
             f.write(modData)
             f.close()
         for mod in updateInfo['removeList']:
+            if not os.path.isfile('./' + updateInfo['destinationFolder'] + mod):
+                continue
             print("    - Removing mod: " + mod)
             os.remove(updateInfo['destinationFolder'] + mod)
         print("Mod list update success!")
