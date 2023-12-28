@@ -23,6 +23,11 @@ Share executable and `conf.json` to your client. Enjoy!
 Search for PyInstaller and build main.py
 `py -m PyInstaller --onefile main.py`
 
+## TODO list
+
+* Intermediate updates support
+* Regular expressions
+
 ## Author
 
 * **Andrii Bondarenko** - [PraydE](https://github.com/PraydE007)
