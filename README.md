@@ -28,6 +28,7 @@ Search for PyInstaller and build main.py
 * Intermediate updates support
 * Regular expressions
 * Auto updates
+* Fix v3 doesn't want to download resources
 
 ## Author
 
