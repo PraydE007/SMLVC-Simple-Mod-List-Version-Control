@@ -6,15 +6,15 @@ Here you can see an example of a finished server that updates the version of Opt
 
 ## version.json
 
-    The main file used by the client to identify an available update
+    The main file used by client to identify an available update
 
 `"version": x`
 
-    Where `x` is the version number. The client searches for the `x.json` file using this number
+    Where `x` is version number. The client searches for `x.json`
 
 ## 1.json
 
-    The main file used by the client for instructions
+    File that used by clients as an installation instructions
 
 `"destinationFolder": path`
 
